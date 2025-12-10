@@ -2,52 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Trang chỉ hỗ trợ light */
-:root {
-  color-scheme: light;
-}
-
-/* Tránh UA tự tối nền khi tiết kiệm pin */
-html,
-body,
-#__next,
-main {
-  background-color: #f9fafb !important; /* bg-gray-50 */
-}
-
-/* Màu chữ mặc định (đừng dùng biến đổi theo dark) */
 body {
-  color: #111827; /* text-gray-900 */
+  @apply min-h-screen;
 }
 
-/* Nếu bạn muốn chắc chắn x2 khi hệ thống báo dark, vẫn giữ light */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: light;
-  }
-  html,
-  body,
-  #__next,
-  main {
-    background-color: #f9fafb !important;
-  }
-  body {
-    color: #111827 !important;
-  }
+/* gradient hero + section */
+.bg-gradient-hero {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(244, 63, 94, 0.12), transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(129, 140, 248, 0.15), transparent 55%), #020617;
 }
 
-/* High Contrast: giữ palette ổn định */
-@media (forced-colors: active) {
-  html,
-  body {
-    forced-color-adjust: none;
-    background-color: #f9fafb;
-  }
-}
-
-/* Tiện ích nhỏ */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* border glow */
+.card-glow {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.9),
+    0 18px 45px rgba(15, 23, 42, 0.95);
 }
