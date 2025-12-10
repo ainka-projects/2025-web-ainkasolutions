@@ -4,6 +4,7 @@ import './globals.css'
 import HeaderTop from '@/components/HeaderTop'
 import Providers from './providers'
 import Footer from '@/components/Footer'
+import ChatWidget from '@/components/ChatWidget'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -45,7 +46,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             className="fixed inset-0 bg-black/30 z-40 hidden peer-checked:block sm:hidden"
             aria-hidden="true"
           />
-        </div>
+        </div>{' '}
+        <ChatWidget />
       </body>
     </html>
   )
