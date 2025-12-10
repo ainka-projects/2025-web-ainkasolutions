@@ -1,96 +1,150 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
-import { Globe2, Shield, Sparkles } from 'lucide-react'
-
-const container: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 0.61, 0.36, 1],
-      when: 'beforeChildren',
-    },
-  },
-}
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 0.61, 0.36, 1],
-    },
-  },
-}
-
-function ServiceCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode
-  title: string
-  desc: string
-}) {
-  return (
-    <motion.div
-      className="flex flex-col gap-3 rounded-2xl border border-slate-700/70 bg-slate-950/70 p-4"
-      variants={item}
-    >
-      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-sky-300">
-        {icon}
-      </div>
-      <h3 className="text-sm font-semibold text-slate-50">{title}</h3>
-      <p className="text-xs text-slate-300">{desc}</p>
-    </motion.div>
-  )
-}
+import { motion } from 'framer-motion'
+import { Code2, Smartphone, Workflow, ArrowUpRight } from 'lucide-react'
+import { fadeUpContainer, fadeUpItem, softScale } from '@/app/_motion/variants'
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="bg-gradient-hero border-t border-slate-800/60 py-16">
-      <motion.div
-        className="mx-auto max-w-5xl px-4 lg:px-6"
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ staggerChildren: 0.08 }}
-      >
-        <motion.div className="mb-8 flex items-center justify-between gap-4" variants={item}>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-400">
-              Services
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-50 md:text-3xl">
-              AI-powered software squads on demand.
-            </h2>
-          </div>
+    <motion.section
+      id="services"
+      className="bg-gradient-hero"
+      variants={fadeUpContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+    >
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:py-20 lg:px-6">
+        {/* label */}
+        <motion.div
+          variants={fadeUpItem}
+          className="mb-4 flex items-center gap-2 text-sm font-semibold tracking-wide text-red-400"
+        >
+          <span className="h-[1px] w-6 bg-red-500" />
+          SERVICES
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <ServiceCard
-            icon={<Sparkles className="h-5 w-5" />}
-            title="AI Product Discovery"
-            desc="From idea to roadmap with market-aware AI, UX and architecture co-designed."
-          />
-          <ServiceCard
-            icon={<Globe2 className="h-5 w-5" />}
-            title="Full-stack Delivery"
-            desc="Next.js, Node.js and cloud-native pipelines shipped by hybrid AI teams."
-          />
-          <ServiceCard
-            icon={<Shield className="h-5 w-5" />}
-            title="Modernization & Re-platforming"
-            desc="Refactor legacy systems into resilient, observable and secure platforms."
-          />
-        </div>
-      </motion.div>
-    </section>
+        {/* title + desc */}
+        <motion.h2
+          variants={fadeUpItem}
+          className="max-w-3xl text-3xl font-bold leading-tight text-slate-100 sm:text-4xl"
+        >
+          Every service, an instrument in your symphony
+        </motion.h2>
+        <motion.p
+          variants={fadeUpItem}
+          className="mt-3 max-w-2xl text-sm sm:text-base leading-relaxed text-slate-300"
+        >
+          We combine cutting-edge AI with human expertise to deliver exceptional results.
+        </motion.p>
+
+        {/* cards */}
+        <motion.div variants={fadeUpContainer} className="mt-10 grid gap-6 md:grid-cols-3">
+          {/* card 1 */}
+          <motion.div
+            variants={softScale}
+            className="flex h-full flex-col rounded-3xl border border-slate-800 bg-slate-900/40 p-6 sm:p-7"
+          >
+            <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-b from-sky-500 to-blue-600 shadow-lg shadow-sky-500/30">
+              <Code2 className="h-5 w-5 text-white" />
+            </div>
+            <h3 className="mb-2 text-base font-semibold text-slate-100 sm:text-lg">
+              AI-driven Software Development
+            </h3>
+            <p className="mb-4 text-sm leading-relaxed text-slate-400">
+              Faster, cleaner, AI-assisted engineering that transforms your ideas into
+              production-ready solutions.
+            </p>
+            <ul className="mb-4 space-y-1.5 text-sm text-slate-300">
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Smart code generation</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Automated testing</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Continuous optimization</span>
+              </li>
+            </ul>
+            <button className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-sky-300 hover:text-sky-200">
+              Learn more
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </button>
+          </motion.div>
+
+          {/* card 2 */}
+          <motion.div
+            variants={softScale}
+            className="flex h-full flex-col rounded-3xl border border-slate-800 bg-slate-900/40 p-6 sm:p-7"
+          >
+            <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-b from-indigo-500 to-blue-700 shadow-lg shadow-indigo-500/30">
+              <Smartphone className="h-5 w-5 text-white" />
+            </div>
+            <h3 className="mb-2 text-base font-semibold text-slate-100 sm:text-lg">
+              Website &amp; Mobile App
+            </h3>
+            <p className="mb-4 text-sm leading-relaxed text-slate-400">
+              High-end digital experiences built with global standards and pixel-perfect precision.
+            </p>
+            <ul className="mb-4 space-y-1.5 text-sm text-slate-300">
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Responsive design</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Native performance</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Scalable architecture</span>
+              </li>
+            </ul>
+            <button className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-sky-300 hover:text-sky-200">
+              Learn more
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </button>
+          </motion.div>
+
+          {/* card 3 */}
+          <motion.div
+            variants={softScale}
+            className="flex h-full flex-col rounded-3xl border border-slate-800 bg-slate-900/40 p-6 sm:p-7"
+          >
+            <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-b from-red-500 to-rose-600 shadow-lg shadow-red-500/30">
+              <Workflow className="h-5 w-5 text-white" />
+            </div>
+            <h3 className="mb-2 text-base font-semibold text-slate-100 sm:text-lg">
+              AI Integration &amp; Automation
+            </h3>
+            <p className="mb-4 text-sm leading-relaxed text-slate-400">
+              Where QA, BA, and testing are played flawlessly by AI, freeing your team for creative
+              work.
+            </p>
+            <ul className="mb-4 space-y-1.5 text-sm text-slate-300">
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Workflow automation</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Intelligent testing</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Process optimization</span>
+              </li>
+            </ul>
+            <button className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-sky-300 hover:text-sky-200">
+              Learn more
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </button>
+          </motion.div>
+        </motion.div>
+      </div>
+    </motion.section>
   )
 }

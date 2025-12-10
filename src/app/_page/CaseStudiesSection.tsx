@@ -1,105 +1,151 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Quote } from 'lucide-react'
+import { fadeUpContainer, fadeUpItem, softScale } from '@/app/_motion/variants'
 
-const container: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 0.61, 0.36, 1],
-      when: 'beforeChildren',
-    },
+const caseStudies = [
+  {
+    initials: 'TF',
+    company: 'TechFlow Inc.',
+    industry: 'FinTech',
+    quote:
+      '"AINKA transformed our development pipeline with AI, reducing our time-to-market by 50%."',
+    personInitials: 'JS',
+    personName: 'John Smith',
+    personRole: 'CTO',
   },
-}
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 0.61, 0.36, 1],
-    },
+  {
+    initials: 'GL',
+    company: 'GreenLeaf',
+    industry: 'Sustainability',
+    quote:
+      '"The AI integration was seamless. Our team now focuses on innovation rather than repetitive tasks."',
+    personInitials: 'MG',
+    personName: 'Maria Garcia',
+    personRole: 'CEO',
   },
-}
-
-function CaseStudyCard({ title, copy, points }: { title: string; copy: string; points: string[] }) {
-  return (
-    <motion.div
-      className="flex flex-col gap-3 rounded-2xl border border-slate-700/70 bg-slate-950/70 p-4 md:p-5"
-      variants={item}
-    >
-      <h3 className="text-sm font-semibold text-slate-50">{title}</h3>
-      <p className="text-xs text-slate-300">{copy}</p>
-      <ul className="mt-1 space-y-1.5 text-xs text-slate-300">
-        {points.map((p) => (
-          <li key={p} className="flex items-start gap-2">
-            <span className="mt-[3px]">
-              <Sparkles className="h-3.5 w-3.5 text-sky-300" />
-            </span>
-            <span>{p}</span>
-          </li>
-        ))}
-      </ul>
-    </motion.div>
-  )
-}
+  {
+    initials: 'MC',
+    company: 'MedConnect',
+    industry: 'Healthcare',
+    quote:
+      '"Working with AINKA felt like having a world-class orchestra play for our healthcare platform."',
+    personInitials: 'DCW',
+    personName: 'Dr. Chen Wei',
+    personRole: 'Founder',
+  },
+  {
+    initials: 'ES',
+    company: 'EduSpark',
+    industry: 'EdTech',
+    quote:
+      '"The 24/7 AI support meant our educational platform launched 3 months ahead of schedule."',
+    personInitials: 'SJ',
+    personName: 'Sarah Johnson',
+    personRole: 'Product Lead',
+  },
+  {
+    initials: 'RM',
+    company: 'RetailMax',
+    industry: 'E-Commerce',
+    quote: '"AINKA\'s mobile app solution increased our customer engagement by 200%."',
+    personInitials: 'MB',
+    personName: 'Mike Brown',
+    personRole: 'Director',
+  },
+  {
+    initials: 'CN',
+    company: 'CloudNine',
+    industry: 'SaaS',
+    quote: '"The code quality and architecture exceeded our expectations. Truly masterful work."',
+    personInitials: 'ED',
+    personName: 'Emily Davis',
+    personRole: 'VP Engineering',
+  },
+]
 
 export default function CaseStudiesSection() {
   return (
-    <section id="case-studies" className="border-t border-slate-800/60 bg-slate-950 py-16">
-      <motion.div
-        className="mx-auto max-w-5xl px-4 lg:px-6"
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ staggerChildren: 0.08 }}
-      >
+    <motion.section
+      id="case-studies"
+      className="bg-gradient-hero"
+      variants={fadeUpContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+    >
+      <div className="mx-auto max-w-6xl px-4 py-20 lg:px-6">
+        {/* label */}
         <motion.div
-          className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
-          variants={item}
+          variants={fadeUpItem}
+          className="mb-4 flex items-center justify-center gap-3 text-xs font-semibold tracking-[0.2em] text-red-400"
         >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-400">
-              Case studies
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-50 md:text-3xl">
-              From prototype to production in weeks.
-            </h2>
-          </div>
-          <p className="max-w-md text-sm text-slate-300">
-            Stories from teams who turned AI from slideware into shipped features — safely, and at
-            scale.
-          </p>
+          <span className="h-[1px] w-10 bg-red-500" />
+          CASE STUDIES
+          <span className="h-[1px] w-10 bg-red-500" />
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <CaseStudyCard
-            title="Global logistics optimiser"
-            copy="Re-platformed a legacy routing engine into an event-driven, AI-assisted planner — cutting planning time from hours to minutes."
-            points={[
-              '30% reduction in delivery costs',
-              'Deployed across 4 regions',
-              'SOC2-ready observability stack',
-            ]}
-          />
-          <CaseStudyCard
-            title="Healthcare knowledge copilot"
-            copy="Built a retrieval-augmented copilot that surfaces guidelines, forms and workflows in the clinical workflow."
-            points={[
-              'Sub-second responses on millions of docs',
-              'Hallucination-aware answer grading',
-              'Human-in-the-loop feedback dashboard',
-            ]}
-          />
-        </div>
-      </motion.div>
-    </section>
+        {/* title + subtitle */}
+        <motion.h2
+          variants={fadeUpItem}
+          className="text-center text-3xl font-bold text-slate-100 sm:text-4xl"
+        >
+          Symphonies we&apos;ve conducted
+        </motion.h2>
+        <motion.p
+          variants={fadeUpItem}
+          className="mt-2 text-center text-sm text-slate-400 sm:text-base"
+        >
+          Real results from real partnerships
+        </motion.p>
+
+        {/* GRID OF CARDS */}
+        <motion.div
+          variants={fadeUpContainer}
+          className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {caseStudies.map((cs) => (
+            <motion.article
+              key={cs.company}
+              variants={softScale}
+              className="flex h-full flex-col rounded-3xl border border-slate-800 bg-slate-900/40 p-6 sm:p-7"
+            >
+              {/* top: company */}
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-800 text-xs font-semibold text-slate-200">
+                  {cs.initials}
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-slate-100">{cs.company}</div>
+                  <div className="text-xs text-slate-400">{cs.industry}</div>
+                </div>
+              </div>
+
+              {/* quote */}
+              <div className="mt-6 text-sm leading-relaxed text-slate-300">
+                <div className="mb-2">
+                  <Quote className="h-6 w-6 text-slate-500" />
+                </div>
+                <p>{cs.quote}</p>
+              </div>
+
+              {/* footer: person */}
+              <div className="mt-6 border-t border-slate-800 pt-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-xs font-semibold text-slate-200">
+                    {cs.personInitials}
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-slate-100">{cs.personName}</div>
+                    <div className="text-xs text-slate-400">{cs.personRole}</div>
+                  </div>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
+      </div>
+    </motion.section>
   )
 }

@@ -1,82 +1,163 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion'
+import { fadeUpContainer, fadeUpItem, softScale } from '@/app/_motion/variants'
 
-const container: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 0.61, 0.36, 1],
-      when: 'beforeChildren',
-    },
-  },
+type AnimatedStatNumberProps = {
+  value: number
+  suffix?: React.ReactNode
+  duration?: number
 }
 
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 0.61, 0.36, 1],
-    },
-  },
-}
+function AnimatedStatNumber({ value, suffix, duration = 1.8 }: AnimatedStatNumberProps) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.6 })
 
-function MetricCard({ label, value, badge }: { label: string; value: string; badge: string }) {
+  const motionValue = useMotionValue(0)
+  const rounded = useTransform(motionValue, (latest) => Math.round(latest))
+  const [display, setDisplay] = useState(0)
+
+  useEffect(() => {
+    if (!isInView) return
+
+    const controls = animate(motionValue, value, {
+      duration,
+      ease: 'easeOut',
+    })
+
+    return () => {
+      controls.stop()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInView, value])
+
+  useEffect(() => {
+    const unsub = rounded.on('change', (v) => setDisplay(v))
+    return () => unsub()
+  }, [rounded])
+
   return (
-    <motion.div
-      className="flex flex-col justify-between rounded-2xl border border-slate-700/70 bg-slate-950/70 p-4"
-      variants={item}
+    <div
+      ref={ref}
+      className="inline-flex items-baseline justify-center text-5xl font-semibold text-slate-50 sm:text-6xl"
     >
-      <div>
-        <p className="text-xs text-slate-400">{label}</p>
-        <p className="mt-2 text-2xl font-semibold text-slate-50">{value}</p>
-      </div>
-      <p className="mt-3 text-[11px] text-slate-400">{badge}</p>
-    </motion.div>
+      <span>{display}</span>
+      {suffix && <span className="ml-1">{suffix}</span>}
+    </div>
   )
 }
 
 export default function PerformanceSection() {
   return (
-    <section id="performance" className="border-t border-slate-800/60 bg-slate-950 py-16">
-      <motion.div
-        className="mx-auto max-w-5xl px-4 lg:px-6"
-        variants={container}
+    <>
+      {/* PERFORMANCE STATS – nền tối thường (xen kẽ với Services gradient) */}
+      <motion.section
+        id="performance"
+        className="bg-slate-950"
+        variants={fadeUpContainer}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.25 }}
-        transition={{ staggerChildren: 0.08 }}
       >
-        <motion.div
-          className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
-          variants={item}
-        >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-400">
-              Performance
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-50 md:text-3xl">
-              Predictable velocity. Transparent metrics.
-            </h2>
-          </div>
-          <p className="max-w-md text-sm text-slate-300">
-            Every engagement ships with a live engineering scoreboard — throughput, quality and
-            reliability tracked in real time.
-          </p>
-        </motion.div>
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20 lg:px-6">
+          {/* label */}
+          <motion.div
+            variants={fadeUpItem}
+            className="mb-4 flex items-center justify-center gap-3 text-xs font-semibold tracking-[0.2em] text-red-400"
+          >
+            <span className="h-[1px] w-10 bg-red-500" />
+            PERFORMANCE
+            <span className="h-[1px] w-10 bg-red-500" />
+          </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <MetricCard label="Lead time to production" value="72h" badge="from first commit" />
-          <MetricCard label="Automated test coverage" value="80–95%" badge="critical flows" />
-          <MetricCard label="SLO adherence" value="99.9%" badge="applied across all tiers" />
+          {/* title */}
+          <motion.h2
+            variants={fadeUpItem}
+            className="text-center text-3xl font-bold leading-tight text-slate-100 sm:text-4xl"
+          >
+            Numbers that speak volumes
+          </motion.h2>
+
+          {/* stats */}
+          <motion.div
+            variants={fadeUpContainer}
+            className="mt-10 grid gap-10 text-center text-slate-300 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            {/* 1 */}
+            <motion.div variants={fadeUpItem}>
+              <AnimatedStatNumber
+                value={24}
+                suffix={<span className="text-sky-500 text-4xl sm:text-5xl leading-none">/7</span>}
+              />
+              <div className="mt-4 text-sm font-semibold text-slate-100">
+                Continuous AI Performance
+              </div>
+              <div className="mt-1 text-xs text-slate-400">Round-the-clock productivity</div>
+            </motion.div>
+
+            {/* 2 */}
+            <motion.div variants={fadeUpItem}>
+              <AnimatedStatNumber
+                value={40}
+                suffix={<span className="text-sky-500 text-4xl sm:text-5xl leading-none">%</span>}
+              />
+              <div className="mt-4 text-sm font-semibold text-slate-100">Faster Delivery Speed</div>
+              <div className="mt-1 text-xs text-slate-400">Compared to traditional methods</div>
+            </motion.div>
+
+            {/* 3 */}
+            <motion.div variants={fadeUpItem}>
+              <AnimatedStatNumber
+                value={50}
+                suffix={<span className="text-sky-500 text-4xl sm:text-5xl leading-none">+</span>}
+              />
+              <div className="mt-4 text-sm font-semibold text-slate-100">AI Instruments Ready</div>
+              <div className="mt-1 text-xs text-slate-400">Models trained for your needs</div>
+            </motion.div>
+
+            {/* 4 */}
+            <motion.div variants={fadeUpItem}>
+              <AnimatedStatNumber value={4} />
+              <div className="mt-4 text-sm font-semibold text-slate-100">Countries</div>
+              <div className="mt-1 text-xs text-slate-400">Vietnam · Singapore · Canada · US</div>
+            </motion.div>
+          </motion.div>
         </div>
-      </motion.div>
-    </section>
+      </motion.section>
+
+      {/* QUOTE BLOCK – nền gradient (tiếp tục xen kẽ) */}
+      <motion.section
+        className="bg-gradient-hero"
+        variants={softScale}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:py-20 lg:px-6 text-center">
+          {/* quote icon */}
+          <div className="mb-6 text-3xl text-slate-400/70">”</div>
+
+          {/* main text */}
+          <h3 className="text-2xl font-semibold leading-snug text-slate-100 sm:text-3xl md:text-4xl">
+            <span className="block">AI working beyond borders —</span>
+            <span className="block text-sky-400">Humans living beyond limits.</span>
+          </h3>
+
+          {/* description */}
+          <p className="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+            AI plays tirelessly in the background. Humans lead the vision, the creativity, and the
+            life they deserve.
+          </p>
+
+          {/* slider dots style */}
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <span className="h-[1px] w-16 bg-slate-600" />
+            <span className="h-2 w-2 rounded-full bg-red-500" />
+            <span className="h-[1px] w-16 bg-slate-600" />
+          </div>
+        </div>
+      </motion.section>
+    </>
   )
 }

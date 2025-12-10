@@ -1,112 +1,105 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { fadeUpContainer, fadeUpItem, softScale } from '@/app/_motion/variants'
 
-const container: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 0.61, 0.36, 1],
-      when: 'beforeChildren',
-    },
-  },
-}
+const team = [
+  { initials: 'MN', name: 'Minh Nguyen', role: 'CEO & Founder', country: 'Vietnam' },
+  { initials: 'SC', name: 'Sarah Chen', role: 'CTO', country: 'Singapore' },
+  { initials: 'DP', name: 'David Park', role: 'Head of AI', country: 'US' },
 
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 0.61, 0.36, 1],
-    },
-  },
-}
+  { initials: 'LW', name: 'Lisa Wang', role: 'Lead Architect', country: 'Singapore' },
+  { initials: 'JM', name: 'James Miller', role: 'Senior Developer', country: 'Canada' },
+  { initials: 'AT', name: 'Anna Tran', role: 'Product Lead', country: 'Vietnam' },
 
-function TeamCard({
-  badge,
-  title,
-  subtitle,
-  body,
-}: {
-  badge: string
-  title: string
-  subtitle: string
-  body: string
-}) {
-  return (
-    <motion.div
-      className="rounded-2xl border border-slate-700/70 bg-slate-950/70 p-4"
-      variants={item}
-    >
-      <div className="mb-3 flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-sky-300">
-          {badge}
-        </div>
-        <div>
-          <p className="text-sm font-medium text-slate-100">{title}</p>
-          <p className="text-xs text-slate-400">{subtitle}</p>
-        </div>
-      </div>
-      <p className="text-xs text-slate-300">{body}</p>
-    </motion.div>
-  )
-}
+  { initials: 'ML', name: 'Michael Lee', role: 'Design Director', country: 'US' },
+]
 
 export default function TeamSection() {
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null)
+
   return (
-    <section id="team" className="bg-gradient-hero border-t border-slate-800/60 py-16">
-      <motion.div
-        className="mx-auto max-w-5xl px-4 lg:px-6"
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ staggerChildren: 0.08 }}
-      >
+    <motion.section
+      id="team"
+      className="bg-slate-950"
+      variants={fadeUpContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      <div className="mx-auto max-w-3xl px-4 py-20">
+        {/* label */}
         <motion.div
-          className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
-          variants={item}
+          variants={fadeUpItem}
+          className="mb-4 flex items-center justify-center gap-3 text-xs font-semibold tracking-[0.2em] text-red-400"
         >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-fuchsia-400">
-              Team
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-50 md:text-3xl">
-              Human-first, AI-augmented engineering culture.
-            </h2>
-          </div>
-          <p className="max-w-md text-sm text-slate-300">
-            We pair senior engineers, designers and product minds with specialized AI copilots —
-            from code generation to research and QA.
-          </p>
+          <span className="h-[1px] w-10 bg-red-500" />
+          OUR TEAM
+          <span className="h-[1px] w-10 bg-red-500" />
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <TeamCard
-            badge="A"
-            title="AI Architects"
-            subtitle="System design & model strategy"
-            body="Craft the blueprint: domains, events, APIs, and AI integration points tailored to your stack."
-          />
-          <TeamCard
-            badge="E"
-            title="Engineering Pods"
-            subtitle="3–6 people per squad"
-            body="Cross-functional pods with frontend, backend, QA and DevOps ship in weekly production cycles."
-          />
-          <TeamCard
-            badge="P"
-            title="Product Partners"
-            subtitle="Strategy & experience"
-            body="Support from product & UX to frame problems, shape experiments and keep the roadmap moving."
-          />
-        </div>
-      </motion.div>
-    </section>
+        {/* title */}
+        <motion.h2
+          variants={fadeUpItem}
+          className="text-center text-3xl font-bold text-slate-100 sm:text-4xl"
+        >
+          Global minds, unified vision
+        </motion.h2>
+        <motion.p
+          variants={fadeUpItem}
+          className="mt-2 text-center text-sm text-slate-400 sm:text-base"
+        >
+          Meet the conductors of your AI symphony
+        </motion.p>
+
+        {/* GRID */}
+        <motion.div
+          variants={fadeUpContainer}
+          className="mt-14 grid gap-10 sm:grid-cols-2 md:grid-cols-3"
+        >
+          {team.map((member, i) => (
+            <motion.div key={i} variants={fadeUpItem} className="flex flex-col items-center">
+              {/* CARD – smaller width + taller */}
+              <motion.div
+                variants={softScale}
+                className="relative h-72 w-full max-w-[220px] rounded-3xl 
+                           border border-slate-800 bg-[#0f172a]/60 
+                           flex items-center justify-center 
+                           text-2xl font-semibold text-slate-500
+                           transition-all duration-300
+                           hover:shadow-lg hover:shadow-blue-500/10"
+                onMouseEnter={() => setHoverIndex(i)}
+                onMouseLeave={() => setHoverIndex(null)}
+              >
+                {member.initials}
+
+                {/* COUNTRY TAG – hover */}
+                <div
+                  className={`absolute bottom-4 left-1/2 -translate-x-1/2 
+                              flex items-center gap-1 rounded-full px-3 py-1 
+                              text-xs bg-slate-900/70 border border-slate-700/60
+                              transition-all duration-300 
+                              ${
+                                hoverIndex === i
+                                  ? 'opacity-100 translate-y-0'
+                                  : 'opacity-0 translate-y-3'
+                              }`}
+                >
+                  <span className="h-2 w-2 rounded-full bg-red-500" />
+                  <span className="text-slate-300">{member.country}</span>
+                </div>
+              </motion.div>
+
+              {/* NAME + ROLE */}
+              <div className="mt-4 text-center">
+                <div className="font-semibold text-sky-400 text-sm sm:text-base">{member.name}</div>
+                <div className="text-xs text-slate-400">{member.role}</div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </motion.section>
   )
 }

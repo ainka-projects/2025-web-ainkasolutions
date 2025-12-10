@@ -1,13 +1,24 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, X, Rocket, Sparkles, Users, LineChart, Home } from 'lucide-react'
+import Image from 'next/image'
+import {
+  Menu,
+  X,
+  MessageCircleHeart,
+  MessageCircleMore,
+  MonitorCheckIcon,
+  ArrowRight,
+  Users,
+  LineChart,
+  MoveRight,
+} from 'lucide-react'
 
 const navItems = [
-  { id: 'services', label: 'Services', icon: Sparkles },
+  { id: 'services', label: 'Services', icon: MonitorCheckIcon },
   { id: 'performance', label: 'Performance', icon: LineChart },
   { id: 'team', label: 'Team', icon: Users },
-  { id: 'case-studies', label: 'Case Studies', icon: Rocket },
+  { id: 'case-studies', label: 'Case Studies', icon: MessageCircleHeart },
 ]
 
 export default function HeaderTop() {
@@ -29,8 +40,14 @@ export default function HeaderTop() {
           onClick={() => handleScroll('hero')}
           className="flex items-center gap-2 focus:outline-none"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 ring-1 ring-slate-700/70">
-            <Home className="h-5 w-5 text-sky-400" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 ring-1 ring-slate-700/70 overflow-hidden">
+            <Image
+              src="/images/logo/ainka-logo-100.png"
+              alt="Ainka Logo"
+              width={24}
+              height={24}
+              className="object-contain"
+            />
           </div>
           <span className="hidden text-sm font-semibold tracking-tight text-slate-100 sm:inline">
             Ainka Solutions
@@ -52,10 +69,10 @@ export default function HeaderTop() {
 
           <button
             onClick={() => handleScroll('contact')}
-            className="inline-flex items-center gap-1.5 rounded-full bg-red-500 px-4 py-1.5 text-sm font-semibold text-white shadow-lg shadow-red-500/40 transition hover:bg-red-600"
+            className="inline-flex items-center gap-1.5 rounded-full bg-red-500 px-4 py-1.5 text-sm font-semibold text-white shadow-lg transition hover:bg-red-600"
           >
             Start a Project
-            <Rocket className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
@@ -85,10 +102,10 @@ export default function HeaderTop() {
 
             <button
               onClick={() => handleScroll('contact')}
-              className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-red-500/40 hover:bg-red-600"
+              className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600"
             >
               Start a Project
-              <Rocket className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>

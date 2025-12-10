@@ -11,8 +11,6 @@ import ContactSection from './_page/ContactSection'
 export default function HomePage() {
   return (
     <main className="bg-gradient-hero min-h-screen">
-      <HeaderTop />
-
       <HomeSection />
       <ServicesSection />
       <PerformanceSection />
