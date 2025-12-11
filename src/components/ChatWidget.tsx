@@ -19,23 +19,23 @@ export default function ChatWidget() {
     {
       role: 'assistant',
       content:
-        'Xin chào 👋 Mình là Ainka Bot. Bạn đang cần tư vấn về website, landing page hay tự động hoá cho doanh nghiệp?',
+        'Hello 👋 I am Ainka Bot. Are you looking for consultation about a website, landing page, or business automation?',
     },
   ])
   const [input, setInput] = useState('')
   const [isSending, setIsSending] = useState(false)
 
-  // Form lead hiển thị khi bot quyết định (qua tag [ASK_CONTACT_INFO])
+  // Lead form is displayed when the bot decides (via [ASK_CONTACT_INFO] tag)
   const [showLeadForm, setShowLeadForm] = useState(false)
 
-  // Thông tin lead
+  // Lead information
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [note, setNote] = useState('')
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
-  // Tự động mở sau 5s nếu user chưa tương tác
+  // Auto-open after 5s if user hasn’t interacted
   useEffect(() => {
     if (hasInteracted) return
     const timer = setTimeout(() => {
@@ -44,7 +44,7 @@ export default function ChatWidget() {
     return () => clearTimeout(timer)
   }, [hasInteracted])
 
-  // Scroll xuống cuối khi có message mới
+  // Scroll to bottom when a new message or form appears
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -94,7 +94,7 @@ export default function ChatWidget() {
         ...prev,
         {
           role: 'assistant',
-          content: 'Có lỗi kết nối, bạn thử gửi lại giúp mình nhé 🙏',
+          content: 'Connection error, please try sending again 🙏',
         },
       ])
     } finally {
@@ -110,10 +110,10 @@ export default function ChatWidget() {
   const handleSubmitLead = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // TODO: Gọi API /api/leads để lưu vào Prisma + Neon
+    // TODO: Call /api/leads to save to Prisma + Neon
     console.log('Lead info:', { name, phone, note })
 
-    alert('Cảm ơn bạn! Đội ngũ Ainka sẽ liên hệ tư vấn trong thời gian sớm nhất ❤️')
+    alert('Thank you! The Ainka team will contact you as soon as possible ❤️')
 
     setName('')
     setPhone('')
@@ -122,16 +122,16 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Nút chat tròn */}
+      {/* Round chat button */}
       <button
         onClick={toggleOpen}
         className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-xl transition hover:scale-105 hover:bg-blue-500 focus:outline-none"
-        aria-label="Mở chat tư vấn"
+        aria-label="Open support chat"
       >
         <MessageCircle className="h-7 w-7" />
       </button>
 
-      {/* Khung chat */}
+      {/* Chat window */}
       {isOpen && (
         <div className="fixed bottom-20 right-4 z-50 flex w-80 max-w-[90vw] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl transition-transform duration-200 ease-out">
           {/* Header */}
@@ -142,21 +142,21 @@ export default function ChatWidget() {
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Ainka Bot</span>
-                <span className="text-[11px] text-blue-100">Đang online - sẵn sàng tư vấn</span>
+                <span className="text-[11px] text-blue-100">Online - ready to assist</span>
               </div>
             </div>
             <button
               onClick={toggleOpen}
               className="rounded-full p-1 hover:bg-white/10"
-              aria-label="Đóng chat"
+              aria-label="Close chat"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Nội dung chat + form lead trong khung + input bên dưới */}
+          {/* Chat content + embedded lead form + input below */}
           <div className="flex max-h-96 flex-col bg-slate-50">
-            {/* Vùng chat + form lead (scroll chung) */}
+            {/* Chat area + lead form (shared scroll) */}
             <div className="ainka-chat-scroll flex-1 space-y-2 overflow-y-auto px-3 py-3 text-sm">
               {messages.map((msg, idx) => {
                 const isUser = msg.role === 'user'
@@ -189,38 +189,38 @@ export default function ChatWidget() {
               {isSending && (
                 <div className="flex items-center gap-2 text-xs text-slate-400">
                   <span className="h-2 w-2 animate-ping rounded-full bg-blue-500" />
-                  Ainka Bot đang trả lời...
+                  Ainka Bot is typing...
                 </div>
               )}
 
-              {/* Form lấy thông tin – hiển thị như 1 card trong khung chat */}
+              {/* Lead form – displayed as a card inside the chat window */}
               {showLeadForm && (
                 <form
                   onSubmit={handleSubmitLead}
                   className="mt-1 space-y-2 rounded-xl border border-slate-200 bg-white/95 px-3 py-3 text-xs shadow-sm"
                 >
                   <p className="text-[11px] text-slate-600">
-                    Để đội ngũ Ainka có thể tư vấn chi tiết hơn, bạn cho mình xin <b>tên</b> và{' '}
-                    <b>số điện thoại</b> nhé 📞
+                    To help the Ainka team support you better, could you please share your{' '}
+                    <b>name</b> and <b>phone number</b>? 📞
                     <br />
-                    Nếu chưa tiện, bạn vẫn có thể tiếp tục chat bình thường bên dưới.
+                    If it is not convenient now, you can still continue chatting below.
                   </p>
 
                   <div className="flex flex-col gap-1">
-                    <label className="font-medium text-slate-700">Tên của bạn</label>
+                    <label className="font-medium text-slate-700">Your name</label>
                     <input
                       className="h-8 w-full rounded-lg border border-slate-300 bg-white px-2 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-300"
-                      placeholder="VD: Anh Khoa"
+                      placeholder="E.g. John"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <label className="font-medium text-slate-700">Số điện thoại</label>
+                    <label className="font-medium text-slate-700">Phone number</label>
                     <input
                       className="h-8 w-full rounded-lg border border-slate-300 bg-white px-2 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-300"
-                      placeholder="VD: 09xx xxx xxx"
+                      placeholder="E.g. 09xx xxx xxx"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
@@ -228,11 +228,11 @@ export default function ChatWidget() {
 
                   <div className="flex flex-col gap-1">
                     <label className="font-medium text-slate-700">
-                      Nội dung cần tư vấn (tuỳ chọn)
+                      What would you like to consult about? (optional)
                     </label>
                     <textarea
                       className="min-h-[50px] w-full rounded-lg border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-300"
-                      placeholder="VD: muốn làm website + landing page chạy ads"
+                      placeholder="E.g. I want to build a website + landing page for ads"
                       value={note}
                       onChange={(e) => setNote(e.target.value)}
                     />
@@ -242,12 +242,12 @@ export default function ChatWidget() {
                     type="submit"
                     className="mt-1 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98]"
                   >
-                    Gửi thông tin cho Ainka
+                    Send information to Ainka
                   </button>
 
                   <p className="text-[10px] text-slate-400">
-                    Bằng cách gửi, bạn đồng ý cho Ainka liên hệ tư vấn qua số điện thoại bạn cung
-                    cấp.
+                    By submitting, you agree that Ainka may contact you via the phone number you
+                    provide.
                   </p>
                 </form>
               )}
@@ -255,14 +255,14 @@ export default function ChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Ô nhập chat luôn ở dưới cùng, dù form có hiện hay không */}
+            {/* Chat input always stays at the bottom, whether the form is visible or not */}
             <form
               onSubmit={handleSubmitInput}
               className="flex items-center gap-2 border-t border-slate-200 bg-white px-2 py-2"
             >
               <input
                 className="h-9 flex-1 rounded-full border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-300"
-                placeholder="Nhập câu hỏi của bạn..."
+                placeholder="Type your question..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
@@ -270,7 +270,7 @@ export default function ChatWidget() {
                 type="submit"
                 disabled={isSending || !input.trim()}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white shadow-sm transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-slate-300"
-                aria-label="Gửi tin nhắn"
+                aria-label="Send message"
               >
                 <SendHorizonal className="h-4 w-4" />
               </button>
