@@ -137,8 +137,14 @@ export default function ChatWidget() {
           {/* Header */}
           <div className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-cyan-500 px-3 py-2 text-white">
             <div className="flex items-center gap-2">
-              <div className="relative h-10 w-10 overflow-hidden rounded-full bg-white/10">
-                <Image src="/images/ainka-bot.png" alt="Ainka Bot" fill className="object-cover" />
+              <div className="h-10 w-10 overflow-hidden rounded-full bg-white/10">
+                <Image
+                  src="/images/ainka-bot.png"
+                  alt="Ainka Bot"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 object-cover"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Ainka Bot</span>
