@@ -6,7 +6,7 @@ export type ClientMessage = {
   content: string
 }
 
-// Message format gửi lên LLM (thêm system)
+// Message format sent to the LLM (including system prompt)
 type LlmMessage = {
   role: 'system' | 'user' | 'assistant'
   content: string
@@ -21,7 +21,7 @@ function getModelConfig() {
       return {
         provider: 'openai' as const,
         baseUrl: 'https://api.openai.com/v1',
-        model: 'gpt-4.1-mini', // hoặc gpt-4.1 tùy budget
+        model: 'gpt-4.1-mini', // or gpt-4.1 depending on budget
         apiKey: process.env.OPENAI_API_KEY,
       }
     case 'openaimini':
@@ -36,7 +36,7 @@ function getModelConfig() {
       return {
         provider: 'groq' as const,
         baseUrl: 'https://api.groq.com/openai/v1',
-        // Model còn đang support
+        // Supported model
         model: GROQ_MODEL,
         apiKey: process.env.GROQ_API_KEY,
       }
@@ -44,14 +44,14 @@ function getModelConfig() {
 }
 
 /**
- * Hàm duy nhất để gọi LLM (OpenAI / Groq)
- * -> mọi “huấn luyện” nằm ở SYSTEM_PROMPT & buildMessages
+ * The main function to call the LLM (OpenAI / Groq)
+ * -> all “instruction tuning” is handled inside SYSTEM_PROMPT & buildMessages
  */
 export async function callChatModel(clientMessages: ClientMessage[]): Promise<string> {
   const { baseUrl, model, apiKey } = getModelConfig()
 
   if (!apiKey) {
-    throw new Error('API key cho chatbot chưa được cấu hình (OPENAI_API_KEY hoặc GROQ_API_KEY)')
+    throw new Error('Chatbot API key is not configured (OPENAI_API_KEY or GROQ_API_KEY)')
   }
 
   const messages: LlmMessage[] = [{ role: 'system', content: SYSTEM_PROMPT }, ...clientMessages]
@@ -73,13 +73,13 @@ export async function callChatModel(clientMessages: ClientMessage[]): Promise<st
   if (!res.ok) {
     const text = await res.text()
     console.error('LLM error:', text)
-    throw new Error('Chat bot hiện đang bận, bạn thử lại sau giúp mình nhé.')
+    throw new Error('The chatbot is currently busy. Please try again in a moment.')
   }
 
   const data = await res.json()
   const reply: string =
     data.choices?.[0]?.message?.content ??
-    'Xin lỗi, hiện mình không trả lời được câu này, bạn thử lại giúp mình nhé.'
+    "Sorry, I can't answer this question right now. Please try again."
 
   return reply
 }

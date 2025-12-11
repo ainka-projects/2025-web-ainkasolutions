@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     console.error('Chat API error:', error)
     return NextResponse.json(
       {
-        error: error?.message || 'Có lỗi xảy ra, bạn thử lại sau giúp mình nhé.',
+        error: error?.message || 'An error occurred, please try again later.',
       },
       { status: 500 }
     )
