@@ -5,15 +5,30 @@ import { motion } from 'framer-motion'
 import { fadeUpContainer, fadeUpItem, softScale } from '@/app/_motion/variants'
 
 const team = [
-  { initials: 'MN', name: 'Minh Nguyen', role: 'CEO & Founder', country: 'Vietnam' },
-  { initials: 'SC', name: 'Sarah Chen', role: 'CTO', country: 'Singapore' },
-  { initials: 'DP', name: 'David Park', role: 'Head of AI', country: 'US' },
-
-  { initials: 'LW', name: 'Lisa Wang', role: 'Lead Architect', country: 'Singapore' },
-  { initials: 'JM', name: 'James Miller', role: 'Senior Developer', country: 'Canada' },
-  { initials: 'AT', name: 'Anna Tran', role: 'Product Lead', country: 'Vietnam' },
-
-  { initials: 'ML', name: 'Michael Lee', role: 'Design Director', country: 'US' },
+  {
+    initials: 'LD',
+    name: 'Linda Duc Minh',
+    role: 'Co-Founder',
+    country: 'Vietnam',
+  },
+  {
+    initials: 'FG',
+    name: 'Florian Grousset',
+    role: 'Co-Founder',
+    country: 'France',
+  },
+  {
+    initials: 'GH',
+    name: 'Guillaume Hennion',
+    role: 'Co-Founder',
+    country: 'France',
+  },
+  {
+    initials: 'PL',
+    name: 'Pascal Leytens',
+    role: 'Co-Founder',
+    country: 'Belgium',
+  },
 ]
 
 export default function TeamSection() {
@@ -28,7 +43,7 @@ export default function TeamSection() {
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="mx-auto max-w-3xl px-4 py-20">
+      <div className="mx-auto max-w-2xl px-4 py-20">
         {/* label */}
         <motion.div
           variants={fadeUpItem}
@@ -44,42 +59,39 @@ export default function TeamSection() {
           variants={fadeUpItem}
           className="text-center text-3xl font-bold text-slate-100 sm:text-4xl"
         >
-          Global minds, unified vision
+          Founders & Visionaries
         </motion.h2>
         <motion.p
           variants={fadeUpItem}
           className="mt-2 text-center text-sm text-slate-400 sm:text-base"
         >
-          Meet the conductors of your AI symphony
+          Global leadership with a shared long-term vision
         </motion.p>
 
-        {/* GRID */}
-        <motion.div
-          variants={fadeUpContainer}
-          className="mt-14 grid gap-10 sm:grid-cols-2 md:grid-cols-3"
-        >
+        {/* GRID – col-2 */}
+        <motion.div variants={fadeUpContainer} className="mt-14 grid gap-12 sm:grid-cols-2">
           {team.map((member, i) => (
             <motion.div key={i} variants={fadeUpItem} className="flex flex-col items-center">
-              {/* CARD – smaller width + taller */}
+              {/* CARD */}
               <motion.div
                 variants={softScale}
-                className="relative h-72 w-full max-w-[220px] rounded-3xl 
-                           border border-slate-800 bg-[#0f172a]/60 
-                           flex items-center justify-center 
+                className="relative h-72 w-full max-w-[240px] rounded-3xl
+                           border border-slate-800 bg-[#0f172a]/60
+                           flex items-center justify-center
                            text-2xl font-semibold text-slate-500
                            transition-all duration-300
-                           hover:shadow-lg hover:shadow-blue-500/10"
+                           hover:shadow-xl hover:shadow-blue-500/10"
                 onMouseEnter={() => setHoverIndex(i)}
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 {member.initials}
 
-                {/* COUNTRY TAG – hover */}
+                {/* COUNTRY TAG */}
                 <div
-                  className={`absolute bottom-4 left-1/2 -translate-x-1/2 
-                              flex items-center gap-1 rounded-full px-3 py-1 
+                  className={`absolute bottom-4 left-1/2 -translate-x-1/2
+                              flex items-center gap-1 rounded-full px-3 py-1
                               text-xs bg-slate-900/70 border border-slate-700/60
-                              transition-all duration-300 
+                              transition-all duration-300
                               ${
                                 hoverIndex === i
                                   ? 'opacity-100 translate-y-0'
@@ -93,8 +105,8 @@ export default function TeamSection() {
 
               {/* NAME + ROLE */}
               <div className="mt-4 text-center">
-                <div className="font-semibold text-sky-400 text-sm sm:text-base">{member.name}</div>
-                <div className="text-xs text-slate-400">{member.role}</div>
+                <div className="text-base font-semibold text-sky-400">{member.name}</div>
+                <div className="text-sm text-slate-400">{member.role}</div>
               </div>
             </motion.div>
           ))}
